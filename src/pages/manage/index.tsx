@@ -41,7 +41,7 @@ const ManageWrapper = () => {
           <div className="w-8 h-8 m-auto cursor-pointer" onClick={logout}>
             <Out size={32} />
           </div>
-          <a target="_blank" href="https://google.com" className="flex items-center justify-center" rel="noreferrer">
+          <a target="_blank" href="https://github.com/nqhd3v/geekhub" className="flex items-center justify-center" rel="noreferrer">
             <Github size={32} />
           </a>
           <DarkModeToggle />
