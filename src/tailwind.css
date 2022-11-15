@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.ant-modal.confirm .ant-modal-footer {
+  @apply pt-0 border-t-0 px-6 pb-6
+}
+.ant-modal.confirm .ant-form .ant-form-item {
+  @apply mb-0
+}
+
+span[data-removed=true] {
+  @apply line-through
+}
