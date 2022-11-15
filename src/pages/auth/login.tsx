@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { loginWithEmail } from "../../utils/firebase/firebaseAuth";
 import { firebaseAuth } from "../../utils/firebase/firebase";
-import Loading from "../../components/Icons/Loading";
+import LoadingPage from "../LoadingPage";
 
 const LoginPage = () => {
   const [user, isAuthenticating] = useAuthState(firebaseAuth);
@@ -33,40 +33,38 @@ const LoginPage = () => {
       navigate('/manage');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [!user]);
 
   if (isAuthenticating) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-        <Loading size={32} /> 
-      </div>
+      <LoadingPage />
     )
   }
 
   if (user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300 dark:bg-dark">
         Bạn đã đăng nhập!
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300">
-      <div className="flex flex-col bg-white shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
-        <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800">Login To Your Account</div>
-        <button className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 cursor-not-allowed" disabled>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300 dark:bg-dark">
+      <div className="flex flex-col bg-white dark:bg-gray-700 shadow-md px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-md w-full max-w-md">
+        <div className="font-medium self-center text-xl sm:text-2xl uppercase text-gray-800 dark:text-light mb-6">Login To Your Account</div>
+        <button className="relative rounded-md py-2 text-sm text-gray-800 bg-gray-100 dark:bg-slate-500 cursor-not-allowed" disabled>
           <span>Login with Google</span>
         </button>
-        <div className="relative mt-10 h-px bg-gray-300">
+        <div className="relative mt-10 h-px bg-gray-300 dark:bg-light">
           <div className="absolute left-0 top-0 flex justify-center w-full -mt-2">
-            <span className="bg-white px-4 text-xs text-gray-500 uppercase">Or Login With Email</span>
+            <span className="bg-white dark:bg-gray-700 px-4 text-xs text-gray-500 dark:text-light uppercase">Or Login With Email</span>
           </div>
         </div>
         <div className="mt-10">
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col mb-6">
-              <label htmlFor="email" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">E-Mail Address:</label>
+              <label htmlFor="email" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-slate-300">E-Mail Address:</label>
               <div className="relative">
                 <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                   <svg className="h-6 w-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,11 +72,11 @@ const LoginPage = () => {
                   </svg>
                 </div>
 
-                <input ref={emailRef} type="email" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="E-Mail Address" />
+                <input ref={emailRef} type="email" className="bg-light dark:bg-gray-500 text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 text-dark dark:text-light" placeholder="E-Mail Address" />
               </div>
             </div>
             <div className="flex flex-col mb-6">
-              <label htmlFor="password" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
+              <label htmlFor="password" className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600 dark:text-slate-300">Password:</label>
               <div className="relative">
                 <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
                   <span>
@@ -88,13 +86,13 @@ const LoginPage = () => {
                   </span>
                 </div>
 
-                <input ref={passwordRef} type="password" className="text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400" placeholder="Password" />
+                <input ref={passwordRef} type="password" className="bg-light dark:bg-gray-500 text-sm sm:text-base placeholder-gray-500 pl-10 pr-4 rounded-lg border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400 text-dark dark:text-light" placeholder="Password" />
               </div>
             </div>
 
             <div className="flex items-center mb-6 -mt-4">
               <div className="flex ml-auto">
-                <Link to="/forgot" className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700">Forgot Your Password?</Link>
+                <Link to="/forgot" className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700 dark:text-blue-200">Forgot Your Password?</Link>
               </div>
             </div>
 

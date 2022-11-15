@@ -1,5 +1,5 @@
 import { FirebaseError } from "firebase/app";
-import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth"
+import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { firebaseAuth } from "./firebase"
 
 export const ERROR_MSG_MAPPING: {[key: string]: string} = {
@@ -25,6 +25,13 @@ export const forgotPassword = async (email: string) => {
     if (err instanceof FirebaseError) {
       throw new Error(ERROR_MSG_MAPPING[err.code]);
     }
+    throw err;
+  }
+}
+export const logout = async () => {
+  try {
+    return await signOut(firebaseAuth);
+  } catch (err) {
     throw err;
   }
 }
