@@ -1,5 +1,5 @@
 import { FirebaseError } from "firebase/app";
-import { ActionCodeInfo, applyActionCode, checkActionCode, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, verifyPasswordResetCode } from "firebase/auth"
+import { ActionCodeInfo, applyActionCode, checkActionCode, confirmPasswordReset, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, verifyPasswordResetCode } from "firebase/auth"
 import { firebaseAuth } from "./firebase";
 
 // TYPE & INTERFACE
@@ -52,3 +52,10 @@ export const logout = async () => {
 export const applyCode = async (code: string): Promise<void> => applyActionCode(firebaseAuth, code);
 export const checkCode = async (code: string): Promise<ActionCodeInfo> => checkActionCode(firebaseAuth, code);
 export const verifyPwdResetCode = async (code: string): Promise<string> => verifyPasswordResetCode(firebaseAuth, code);
+export const confirmPwdReset = async (code: string, password: string): Promise<void> => confirmPasswordReset(firebaseAuth, code, password);
+export const sendMail2VerifyEmail = async () => {
+  if (firebaseAuth.currentUser && !firebaseAuth.currentUser.emailVerified) {
+    return await sendEmailVerification(firebaseAuth.currentUser);
+  }
+  return false;
+}

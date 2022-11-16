@@ -1,8 +1,8 @@
 import { Tooltip, TooltipProps } from "antd";
-import Edit from "../Icons/Edit";
-import Loading from "../Icons/Loading"
-import Rotate from "../Icons/Rotate";
-import XMark from "../Icons/XMark";
+import Edit from "../../Icons/Edit";
+import Loading from "../../Icons/Loading"
+import Rotate from "../../Icons/Rotate";
+import XMark from "../../Icons/XMark";
 
 const Action: React.FC<{
   icon: React.ReactNode; onClick: () => void; isLoading?: boolean

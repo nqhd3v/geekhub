@@ -1,29 +1,33 @@
 import { notification } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { forgotPassword, verifyPwdResetCode } from "../../../utils/firebase/firebaseAuth";
+import { confirmPwdReset, verifyPwdResetCode } from "../../../utils/firebase/firebaseAuth";
 import Input from "../../../components/Auth/Input";
-import AtSign from "../../../components/Icons/AtSign";
 import Button from "../../../components/Auth/Button";
 import In from "../../../components/Icons/In";
 import AuthPageWrapper from "../../../components/Auth/AuthPageWrapper";
 import LoadingPage from "../../LoadingPage";
+import Check from "../../../components/Icons/Check";
+import LockKeyhole from "../../../components/Icons/LockKeyhole";
 
 const ResetPassword: React.FC<{ code: string }> = ({ code }) => {
   const [err, setErr] = useState<string | undefined>(undefined);
   const [accResetEmail, setAccResetEmail] = useState<string | undefined>(undefined);
-  const emailRef: any = useRef();
+  const [isReset, setIsReset] = useState<boolean>(false);
+
+  const passwordRef: any = useRef();
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const email = emailRef.current?.value;
-    if (!email) {
-      notification.error({ message: 'Email khum điền thì reset bằng niềm tin!?'});
+    const password = passwordRef.current?.value;
+    if (!password) {
+      notification.error({ message: 'Mật khẩu khum điền thì reset bằng niềm tin!?'});
       return;
     }
     try {
-      await forgotPassword(email);
+      await confirmPwdReset(code, password);
+      setIsReset(true);
     } catch (err: any) {
       notification.error({ message: err.message });
     }
@@ -55,19 +59,28 @@ const ResetPassword: React.FC<{ code: string }> = ({ code }) => {
     )
   }
 
+  if (isReset) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-300 dark:bg-dark">
+        <div className="w-full h-10 mb-6">
+          <div className="h-10 w-10 rounded-full flex items-center justify-center m-auto bg-green-500">
+            <Check size={28} className="fill-light" />
+          </div>
+        </div>
+        <span className="text-lg block mb-1">Reset xong goy đó!</span>
+        <Link to="/" className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-50">Quay lại đăng nhập hoy!</Link>
+      </div>
+    )
+  }
+
   if (accResetEmail) {
     return (
       <AuthPageWrapper title="Đặt lại mật khẩu của tôi">
         <form onSubmit={handleSubmit}>
-          <Input type="email" inputRef={emailRef} placeholder="E-Mail Address" label="Địa chỉ email" icon={<AtSign size={24} className="fill-gray-400" />} />
+          <Input type="password" inputRef={passwordRef} placeholder="Mật khẩu mới" label="Mật khẩu mới" icon={<LockKeyhole size={24} className="fill-gray-400" />} />
 
           <div className="flex w-full">
-            <Button icon={<In size={24} className="fill-light" />} text="Gửi mật khẩu vào email của tôi" type="submit" />
-          </div>
-          <div className="flex items-center mt-6">
-            <div className="flex m-auto">
-              <Link to="/" className="inline-flex text-xs sm:text-sm text-blue-500 hover:text-blue-700 dark:text-blue-200 dark:hover:text-blue-50">Đăng nhập?</Link>
-            </div>
+            <Button icon={<In size={24} className="fill-light" />} text="Cập nhật mật khẩu" type="submit" />
           </div>
         </form>
       </AuthPageWrapper>

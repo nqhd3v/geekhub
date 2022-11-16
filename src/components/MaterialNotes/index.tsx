@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import AddDrawer from "./AddDrawer";
 import { useQuery } from '@tanstack/react-query';
 import { getNotes, getNotesByBranch, TNoteView } from "../../utils/models/materialNotes";
-import NoteListHeader from "../NoteList.tsx/NoteListHeader";
-import NoteList from "../NoteList.tsx";
+import NoteListHeader from "./NoteList/NoteListHeader";
+import NoteList from "./NoteList";
 import EditDrawer from "./EditDrawer";
 
 interface IMaterialNotes {

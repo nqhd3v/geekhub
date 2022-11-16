@@ -13,11 +13,11 @@ const AuthorizedWrapper = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isLoading) {
       navigate('/');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [!user]);
+  }, [!user, isLoading]);
 
   if (isLoading) {
     return (
@@ -36,7 +36,11 @@ const AuthorizedWrapper = () => {
   return (
     <div className="bg-light dark:bg-dark">
       <div className="fixed w-15 h-screen top-0 left-0 border-r flex flex-col justify-between items-center">
-        <div className="relative"></div>
+        <div className="relative">
+          <div className="relative w-11 h-11 my-2 overflow-hidden rounded-full cursor-pointer" onClick={() => navigate('/manage')}>
+            <img src="/favicon.png" alt="Logo" className="absolute w-full h-auto" />
+          </div>
+        </div>
         <div className="relative w-15 grid columns-1 gap-y-4 py-5">
           <div className="w-8 h-8 m-auto cursor-pointer" onClick={logout}>
             <Out size={32} />

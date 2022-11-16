@@ -12,7 +12,7 @@ interface INoteList {
   onEditNote: (noteId: string) => void;
 }
 
-const NoteList: React.FC<INoteList> = ({ data, isLoading, onEditNote }) => {
+const NoteList: React.FC<INoteList> = ({ data, isLoading, onEditNote, onRefreshData }) => {
   const [removingId, setRemovingId] = useState<string | undefined>(undefined);
 
   const columns: TableProps<any>['columns'] = [
@@ -73,7 +73,12 @@ const NoteList: React.FC<INoteList> = ({ data, isLoading, onEditNote }) => {
         scroll={{ x: '100%'}}
         pagination={false}
       />
-      <ConfirmRemove data={data?.[removingId || '']} onClose={() => setRemovingId(undefined)} open={!!removingId} />
+      <ConfirmRemove
+        data={data?.[removingId || '']}
+        open={!!removingId}
+        onClose={() => setRemovingId(undefined)}
+        onRefreshData={onRefreshData}
+      />
     </>
   )
 };

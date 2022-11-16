@@ -1,6 +1,6 @@
 import { Input, Select } from "antd";
 import React from "react";
-import { TNoteView } from "../../utils/models/materialNotes";
+import { TNoteView } from "../../../utils/models/materialNotes";
 
 interface INoteListHeader {
   currentView: TNoteView;

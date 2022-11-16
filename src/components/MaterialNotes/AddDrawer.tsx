@@ -81,6 +81,7 @@ const AddDrawer: React.FC<IAddDrawer> = ({ branch, open, onClose, onRefreshNotes
         <Form.Item label="Chú thích" name="note">
           <Input.TextArea autoSize placeholder="Ghi chú" />
         </Form.Item>
+        <div className="italic text-gray-400">Các thông tin bên dưới sẽ không thể chỉnh sửa sau khi tạo.</div>
         <div className="flex justify-between space-x-2">
           <Form.Item label="Ngày mua" name="boughDay" className="flex-1" rules={[{ required: true, message: '' }]}>
             <DatePicker format="DD/MM/YYYY" className="w-full" />

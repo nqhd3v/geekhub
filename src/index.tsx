@@ -13,17 +13,18 @@ import AuthorizedWrapper from './components/Auth/AuthorizedWrapper';
 import NoAuthorizeWrapper from './components/Auth/NoAuthorizeWrapper';
 import MailSent from './pages/auth/MailSent';
 import Handler from './pages/auth/__handler';
+import ManageUsers from './pages/manage/users';
 
 const queryClient = new QueryClient();
 const routes = createBrowserRouter([
   {
+    path: '/__auth',
+    element: <Handler />
+  },
+  {
     path: '/',
     element: <NoAuthorizeWrapper />,
     children: [
-      {
-        path: '__auth',
-        element: <Handler />
-      },
       {
         path: '/',
         element: <LoginPage />,
@@ -47,9 +48,17 @@ const routes = createBrowserRouter([
         loader: () => redirect('/manage/material'),
       },
       {
-        path: 'material',
+        path: '/manage/material',
         element: <ManageMaterial />
-      }
+      },
+      {
+        path: '/manage/users',
+        element: <ManageUsers />
+      },
+      {
+        path: '*',
+        loader: () => redirect('/manage/material'),
+      },
     ]
   },
   {

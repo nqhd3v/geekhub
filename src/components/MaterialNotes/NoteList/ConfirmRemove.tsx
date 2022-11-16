@@ -1,18 +1,29 @@
 import { Alert, Form, FormProps, Input, Modal, notification } from "antd"
+import moment from "moment";
 import { useState } from "react";
-import { removeNote, TFsMaterialNote } from "../../utils/models/materialNotes";
-import Loading from "../Icons/Loading";
+import { removeNote, TFsMaterialNote } from "../../../utils/models/materialNotes";
+import Loading from "../../Icons/Loading";
 
 interface IConfirmRemove {
   data: TFsMaterialNote;
-  onClose: () => void;
   open: boolean;
+  onClose: () => void;
+  onRefreshData?: () => Promise<void> | void;
 };
 
-const ConfirmRemove: React.FC<IConfirmRemove> = ({ data, onClose, open }) => {
+const ConfirmRemove: React.FC<IConfirmRemove> = ({ data, onClose, open, onRefreshData }) => {
   const [isRemoving, setIsRemoving] = useState<boolean>(false);
   const [form] = Form.useForm();
-  let warningMsg: string = '';
+  console.log(data);
+  let warningMsg: React.ReactElement[] = [];
+  // Handle warning message
+  if (data) {
+    const now = moment();
+    const expDate = moment(data.expDay.toDate());
+    if (data.numUsed < data.numBough && expDate.isAfter(now)) {
+      warningMsg.push(<span>Vẫn còn <b>{data.numBough - data.numUsed} sản phẩm</b> còn hạn sử dụng.</span>)
+    } 
+  }
 
   const handleSubmit: FormProps['onFinish'] = async ({ removeNote: note }) => {
     setIsRemoving(true);
@@ -28,7 +39,7 @@ const ConfirmRemove: React.FC<IConfirmRemove> = ({ data, onClose, open }) => {
       if (!isRemoved) {
         notification.error({ message: 'Xoá ghi chú thất bại!' });
       }
-      // await removeNote()
+      onRefreshData?.();
     } catch (err) {
       console.error(err);
     }
@@ -45,7 +56,7 @@ const ConfirmRemove: React.FC<IConfirmRemove> = ({ data, onClose, open }) => {
       footer={null}
       open={open}
     >
-      {warningMsg ? <Alert message={warningMsg} /> : null}
+      {warningMsg ? <Alert type="warning" message={warningMsg} /> : null}
       <Form layout="vertical" form={form} onFinish={handleSubmit}>
         <Form.Item
           label="Ghi chú xoá"

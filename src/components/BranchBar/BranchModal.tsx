@@ -1,8 +1,8 @@
-import { Table, TableProps } from "antd";
+import { Modal, Table, TableProps } from "antd";
 import { useState } from "react";
 import { fsRemove } from "../../utils/firebase/firestore";
 import Loading from "../Icons/Loading";
-import Modal from "../Modal";
+import XMark from "../Icons/XMark";
 
 
 interface IBranchModal {
@@ -50,25 +50,32 @@ const BranchModal: React.FC<IBranchModal> = ({ visible, onClose, onRefreshData, 
 
   return (
     <Modal
-      visible={visible}
-      onClose={onClose}
-      title="Quản lý chi nhánh"
+      open={visible}
+      onCancel={onClose}
+      footer={null}
+      closable={false}
+      title={(
+        <div className="flex items-center justify-between">
+          <span>Quản lý chi nhánh</span>
+          <button className="w-8 h-8 bg-transparent hover:bg-slate-100/40 rounded-md flex items-center justify-center" onClick={() => onClose()}>
+            <XMark size={20} />
+          </button>
+        </div>
+      )}
     >
-      <div className="px-5 py-2 bg-light dark:bg-dark">
-        <Table
-          dataSource={data}
-          columns={columns}
-          rowSelection={{
-            type: 'checkbox',
-            onChange: (selectedRowKeys) => setSelectedKeys(selectedRowKeys),
-            selectedRowKeys: selectedKeys,
-          }}
-          rowKey="_id"
-          loading={isLoading}
-          pagination={false}
-          scroll={{ y: '330px'}}
-        />
-      </div>
+      <Table
+        dataSource={data}
+        columns={columns}
+        rowSelection={{
+          type: 'checkbox',
+          onChange: (selectedRowKeys) => setSelectedKeys(selectedRowKeys),
+          selectedRowKeys: selectedKeys,
+        }}
+        rowKey="_id"
+        loading={isLoading}
+        pagination={false}
+        scroll={{ y: '330px'}}
+      />
     </Modal>
   );
 }
