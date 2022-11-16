@@ -1,14 +1,14 @@
 import { Outlet, useNavigate } from "react-router";
 import { useAuthState } from 'react-firebase-hooks/auth'
-import DarkModeToggle from "../../components/DarkModeToggle";
-import Github from "../../components/Icons/Github";
-import Out from "../../components/Icons/Out";
+import DarkModeToggle from "../DarkModeToggle";
+import Github from "../Icons/Github";
+import Out from "../Icons/Out";
 import { logout } from "../../utils/firebase/firebaseAuth";
 import { firebaseAuth } from "../../utils/firebase/firebase";
-import LoadingPage from "../LoadingPage";
+import LoadingPage from "../../pages/LoadingPage";
 import { useEffect } from "react";
 
-const ManageWrapper = () => {
+const AuthorizedWrapper = () => {
   const [user, isLoading] = useAuthState(firebaseAuth);
   const navigate = useNavigate();
 
@@ -54,4 +54,4 @@ const ManageWrapper = () => {
   );
 };
 
-export default ManageWrapper;
+export default AuthorizedWrapper;

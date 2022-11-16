@@ -6,19 +6,41 @@ import 'antd/dist/antd.min.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, redirect, RouterProvider } from 'react-router-dom';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import LoginPage from './pages/auth/login';
-import ManageWrapper from './pages/manage';
+import LoginPage from './pages/auth/LoginPage';
 import ManageMaterial from './pages/manage/material';
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage';
+import AuthorizedWrapper from './components/Auth/AuthorizedWrapper';
+import NoAuthorizeWrapper from './components/Auth/NoAuthorizeWrapper';
+import MailSent from './pages/auth/MailSent';
+import Handler from './pages/auth/__handler';
 
 const queryClient = new QueryClient();
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <LoginPage />
+    element: <NoAuthorizeWrapper />,
+    children: [
+      {
+        path: '__auth',
+        element: <Handler />
+      },
+      {
+        path: '/',
+        element: <LoginPage />,
+      },
+      {
+        path: '/forgot',
+        element: <ForgotPasswordPage />
+      },
+      {
+        path: '/forgot/mail-sent',
+        element: <MailSent />
+      },
+    ]
   },
   {
     path: '/manage',
-    element: <ManageWrapper />,
+    element: <AuthorizedWrapper />,
     children: [
       {
         path: '/manage',

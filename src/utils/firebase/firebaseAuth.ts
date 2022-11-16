@@ -1,11 +1,24 @@
 import { FirebaseError } from "firebase/app";
-import { sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import { firebaseAuth } from "./firebase"
+import { ActionCodeInfo, applyActionCode, checkActionCode, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, verifyPasswordResetCode } from "firebase/auth"
+import { firebaseAuth } from "./firebase";
 
-export const ERROR_MSG_MAPPING: {[key: string]: string} = {
-  'auth/user-not-found': 'Email không chính xác!',
-  'auth/wrong-password': 'Mật khẩu không chính xác',
+// TYPE & INTERFACE
+
+export type FIREBASE_EMAIL_ACTION_MODE = "resetPassword" | "recoveryEmail" | "verifyEmail";
+
+// MAPPING
+export const FIREBASE_EMAIL_ACTION_MODES: FIREBASE_EMAIL_ACTION_MODE[] = ["recoveryEmail", "resetPassword", "verifyEmail"];
+export const FIREBASE_EMAIL_ACTION_MODE_MAPPING: {[key: string]: FIREBASE_EMAIL_ACTION_MODE} = {
+  RESET_PASSWORD: 'resetPassword',
+  RECOVERY_EMAIL: 'recoveryEmail',
+  VERIFY_EMAIL: 'verifyEmail',
 }
+export const ERROR_MSG_MAPPING: {[key: string]: string} = {
+  'auth/user-not-found': 'Email khum đúng ời!',
+  'auth/wrong-password': 'Mật khẩu sai ời',
+}
+
+// FUNCS
 
 export const loginWithEmail = async (email: string, password: string) => {
   try {
@@ -35,3 +48,7 @@ export const logout = async () => {
     throw err;
   }
 }
+
+export const applyCode = async (code: string): Promise<void> => applyActionCode(firebaseAuth, code);
+export const checkCode = async (code: string): Promise<ActionCodeInfo> => checkActionCode(firebaseAuth, code);
+export const verifyPwdResetCode = async (code: string): Promise<string> => verifyPasswordResetCode(firebaseAuth, code);
